@@ -1305,9 +1305,220 @@
         .btn-primary-small:hover { transform: translateY(-2px); }
 
         /* ============================
+           CITIZENSHIP SECTION
+           ============================ */
+        .citizenship-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* GAUGE */
+        .gauge-wrap {
+            background: linear-gradient(145deg, var(--bg-card), var(--bg));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem 1.5rem 1.5rem;
+        }
+
+        .gauge-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-family: var(--fs-mono);
+            letter-spacing: 0.5px;
+        }
+
+        .gauge-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        #gaugeCanvas {
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+        }
+
+        .gauge-center {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .gauge-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gold);
+            font-family: var(--fs-mono);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .gauge-level-badge {
+            display: inline-block;
+            padding: 0.25rem 0.9rem;
+            border: 1.5px solid var(--gold);
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold);
+            background: rgba(229,185,92,0.1);
+            font-family: var(--fs-display);
+        }
+
+        .gauge-progress-wrap {
+            margin-top: 1.25rem;
+        }
+
+        .gauge-progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--ink-2);
+            margin-bottom: 0.5rem;
+        }
+
+        .gauge-remain {
+            color: var(--gold);
+        }
+
+        .gauge-progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .gauge-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--teal), var(--gold));
+            border-radius: 50px;
+            transition: width 0.4s ease;
+        }
+
+        .gauge-slider-wrap {
+            margin-top: 1.2rem;
+        }
+
+        .gauge-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 4px;
+            border-radius: 50px;
+            background: var(--border);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .gauge-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(229,185,92,0.5);
+        }
+
+        .gauge-slider-hint {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--ink-3);
+            margin-top: 0.5rem;
+            font-family: var(--fs-mono);
+        }
+
+        /* LEVELS LIST */
+        .levels-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .level-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .level-item:hover, .level-item.active {
+            border-color: rgba(229,185,92,0.4);
+            transform: translateX(4px);
+        }
+
+        .level-item.active {
+            background: rgba(229,185,92,0.06);
+            box-shadow: 0 0 0 1px rgba(229,185,92,0.2);
+        }
+
+        .level-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            width: 36px;
+            text-align: center;
+        }
+
+        .level-info {
+            flex: 1;
+        }
+
+        .level-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .level-cat {
+            font-size: 0.75rem;
+            color: var(--ink-3);
+            font-family: var(--fs-mono);
+        }
+
+        .level-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .level-range {
+            font-size: 0.8rem;
+            font-family: var(--fs-mono);
+            color: var(--ink-2);
+        }
+
+        .level-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-community { background: rgba(74,222,128,0.12); color: #4ade80; }
+        .tag-citizen   { background: rgba(229,185,92,0.12); color: var(--gold); }
+        .tag-gov       { background: rgba(155,89,182,0.15); color: #c084fc; }
+
+        /* ============================
            RESPONSIVE
            ============================ */
         @media (max-width: 900px) {
+            .citizenship-layout { grid-template-columns: 1fr; }
             .mission-grid { grid-template-columns: 1fr; gap: 2rem; }
             .mission-divider { display: none; }
             nav { padding: 1rem 1.5rem; }
@@ -1634,6 +1845,114 @@
                 <h3>Financiada</h3>
                 <p>Inversión en infraestructura, proyectos comunitarios y desarrollo del ecosistema.</p>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CIUDADANÍA ========== -->
+<section id="ciudadania">
+    <div class="inner">
+        <div class="label reveal">Escala de Ciudadanía LBWM</div>
+        <div class="section-title reveal">Seis niveles de <em>pertenencia</em></div>
+        <p class="section-desc reveal">Tu nivel de ciudadanía crece con tus contribuciones. Cada mérito acumulado te acerca a mayor influencia, responsabilidad y derechos dentro de LiberBit World.</p>
+
+        <div class="citizenship-layout reveal">
+
+            <!-- GAUGE -->
+            <div class="gauge-wrap">
+                <div class="gauge-title">🎯 Gauge de Ciudadanía</div>
+                <div class="gauge-container">
+                    <canvas id="gaugeCanvas" width="420" height="240"></canvas>
+                    <div class="gauge-center">
+                        <div class="gauge-value" id="gaugeValue">300</div>
+                        <div class="gauge-level-badge" id="gaugeLevelBadge">E-Residency</div>
+                    </div>
+                </div>
+                <div class="gauge-progress-wrap">
+                    <div class="gauge-progress-label">
+                        <span id="gaugeProgressLabel">Progreso a Colaborador</span>
+                        <span id="gaugeProgressRemain" class="gauge-remain">Faltan 200</span>
+                    </div>
+                    <div class="gauge-progress-bar">
+                        <div class="gauge-progress-fill" id="gaugeProgressFill"></div>
+                    </div>
+                </div>
+                <div class="gauge-slider-wrap">
+                    <input type="range" id="gaugeSlider" min="0" max="3500" value="300" class="gauge-slider">
+                    <div class="gauge-slider-hint">← arrastra para explorar los niveles →</div>
+                </div>
+            </div>
+
+            <!-- LEVELS LIST -->
+            <div class="levels-list">
+                <div class="level-item" data-min="0" data-max="99" data-color="#4ade80">
+                    <div class="level-icon">👋</div>
+                    <div class="level-info">
+                        <div class="level-name">Amigo</div>
+                        <div class="level-cat">Comunidad</div>
+                    </div>
+                    <div class="level-right">
+                        <span class="level-range">0 – 99</span>
+                        <span class="level-tag tag-community">Comunidad</span>
+                    </div>
+                </div>
+                <div class="level-item" data-min="100" data-max="499" data-color="#d4f06e">
+                    <div class="level-icon">🪪</div>
+                    <div class="level-info">
+                        <div class="level-name">E-Residency</div>
+                        <div class="level-cat">Comunidad</div>
+                    </div>
+                    <div class="level-right">
+                        <span class="level-range">100 – 499</span>
+                        <span class="level-tag tag-community">Comunidad</span>
+                    </div>
+                </div>
+                <div class="level-item" data-min="500" data-max="999" data-color="#c9a050">
+                    <div class="level-icon">🤝</div>
+                    <div class="level-info">
+                        <div class="level-name">Colaborador</div>
+                        <div class="level-cat">Comunidad</div>
+                    </div>
+                    <div class="level-right">
+                        <span class="level-range">500 – 999</span>
+                        <span class="level-tag tag-community">Comunidad</span>
+                    </div>
+                </div>
+                <div class="level-item" data-min="1000" data-max="1999" data-color="#E5B95C">
+                    <div class="level-icon">🧑‍🤝‍🧑</div>
+                    <div class="level-info">
+                        <div class="level-name">Ciudadano Senior</div>
+                        <div class="level-cat">Ciudadanía</div>
+                    </div>
+                    <div class="level-right">
+                        <span class="level-range">1000 – 1999</span>
+                        <span class="level-tag tag-citizen">Ciudadanía</span>
+                    </div>
+                </div>
+                <div class="level-item" data-min="2000" data-max="2999" data-color="#c0704a">
+                    <div class="level-icon">🌐</div>
+                    <div class="level-info">
+                        <div class="level-name">Embajador</div>
+                        <div class="level-cat">Ciudadanía</div>
+                    </div>
+                    <div class="level-right">
+                        <span class="level-range">2000 – 2999</span>
+                        <span class="level-tag tag-citizen">Ciudadanía</span>
+                    </div>
+                </div>
+                <div class="level-item" data-min="3000" data-max="9999" data-color="#9b59b6">
+                    <div class="level-icon">👑</div>
+                    <div class="level-info">
+                        <div class="level-name">Gobernador</div>
+                        <div class="level-cat">Gobernanza</div>
+                    </div>
+                    <div class="level-right">
+                        <span class="level-range">3000+</span>
+                        <span class="level-tag tag-gov">Gobernanza</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
@@ -1997,8 +2316,172 @@ function continueToApp() {
 }
 
 /* =====================================
-   SMOOTH SCROLL
+   CITIZENSHIP GAUGE
    ===================================== */
+(function() {
+    const canvas = document.getElementById('gaugeCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const levels = [
+        { name: 'Amigo',            min: 0,    max: 99,   color: '#4ade80', cat: 'Comunidad' },
+        { name: 'E-Residency',      min: 100,  max: 499,  color: '#d4f06e', cat: 'Comunidad' },
+        { name: 'Colaborador',      min: 500,  max: 999,  color: '#c9a050', cat: 'Comunidad' },
+        { name: 'Ciudadano Senior', min: 1000, max: 1999, color: '#E5B95C', cat: 'Ciudadanía' },
+        { name: 'Embajador',        min: 2000, max: 2999, color: '#c0704a', cat: 'Ciudadanía' },
+        { name: 'Gobernador',       min: 3000, max: 9999, color: '#9b59b6', cat: 'Gobernanza' },
+    ];
+
+    const MAX_VAL = 3500;
+    const START_ANGLE = Math.PI * 0.85;
+    const END_ANGLE   = Math.PI * 0.15;
+    const TOTAL_ARC   = (2 * Math.PI) - (START_ANGLE - END_ANGLE);
+
+    function valToAngle(v) {
+        const ratio = Math.min(v, MAX_VAL) / MAX_VAL;
+        return START_ANGLE + ratio * TOTAL_ARC;
+    }
+
+    function getLevelFor(v) {
+        for (let i = levels.length - 1; i >= 0; i--) {
+            if (v >= levels[i].min) return levels[i];
+        }
+        return levels[0];
+    }
+
+    function drawGauge(value) {
+        const W = canvas.width, H = canvas.height;
+        const cx = W / 2, cy = H * 0.72;
+        const outerR = W * 0.44, innerR = W * 0.3;
+        ctx.clearRect(0, 0, W, H);
+
+        // Dark base arc
+        ctx.beginPath();
+        ctx.arc(cx, cy, outerR, START_ANGLE, START_ANGLE + TOTAL_ARC);
+        ctx.arc(cx, cy, innerR, START_ANGLE + TOTAL_ARC, START_ANGLE, true);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(255,255,255,0.04)';
+        ctx.fill();
+
+        // Colored level segments
+        levels.forEach((lv, i) => {
+            const segStart = valToAngle(lv.min);
+            const segEnd   = valToAngle(Math.min(lv.max + 1, MAX_VAL));
+            ctx.beginPath();
+            ctx.arc(cx, cy, outerR - 2, segStart, segEnd);
+            ctx.arc(cx, cy, innerR + 2, segEnd, segStart, true);
+            ctx.closePath();
+            ctx.fillStyle = lv.color + 'cc';
+            ctx.fill();
+
+            // Label
+            const midAngle = (segStart + segEnd) / 2;
+            const labelR = (outerR + innerR) / 2 + 14;
+            const lx = cx + Math.cos(midAngle) * labelR;
+            const ly = cy + Math.sin(midAngle) * labelR;
+            ctx.save();
+            ctx.translate(lx, ly);
+            ctx.rotate(midAngle - Math.PI / 2);
+            ctx.font = `bold ${W * 0.028}px Syne, sans-serif`;
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            const shortNames = ['Amigo','E-Res.','Colabor.','C.Senior','Embajad.','Gobern.'];
+            ctx.fillText(shortNames[i], 0, 0);
+            ctx.restore();
+        });
+
+        // Tick marks at segment boundaries
+        [0, 100, 500, 1000, 2000, 3000, MAX_VAL].forEach(tv => {
+            const a = valToAngle(tv);
+            const x1 = cx + Math.cos(a) * (innerR);
+            const y1 = cy + Math.sin(a) * (innerR);
+            const x2 = cx + Math.cos(a) * (outerR);
+            const y2 = cy + Math.sin(a) * (outerR);
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = 'rgba(8,14,20,0.8)';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Value label
+            const labelR2 = innerR - 18;
+            const lx2 = cx + Math.cos(a) * labelR2;
+            const ly2 = cy + Math.sin(a) * labelR2;
+            ctx.font = `${W * 0.025}px JetBrains Mono, monospace`;
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            if (tv < MAX_VAL) {
+                const label = tv >= 1000 ? (tv/1000)+'K' : String(tv);
+                ctx.fillText(label, lx2, ly2);
+            }
+        });
+
+        // Needle
+        const needleAngle = valToAngle(value);
+        const needleLen = innerR - 8;
+        const nx = cx + Math.cos(needleAngle) * needleLen;
+        const ny = cy + Math.sin(needleAngle) * needleLen;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(nx, ny);
+        ctx.strokeStyle = '#E5B95C';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // Needle center circle
+        ctx.beginPath();
+        ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+        ctx.fillStyle = '#080E14';
+        ctx.fill();
+        ctx.strokeStyle = '#E5B95C';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+    }
+
+    function updateUI(value) {
+        const lv = getLevelFor(value);
+        document.getElementById('gaugeValue').textContent = value.toLocaleString();
+        document.getElementById('gaugeLevelBadge').textContent = lv.name;
+        document.getElementById('gaugeLevelBadge').style.borderColor = lv.color;
+        document.getElementById('gaugeLevelBadge').style.color = lv.color;
+        document.getElementById('gaugeLevelBadge').style.background = lv.color + '22';
+
+        // Progress to next level
+        const idx = levels.indexOf(lv);
+        const nextLv = levels[idx + 1];
+        if (nextLv) {
+            const progress = ((value - lv.min) / (nextLv.min - lv.min)) * 100;
+            const remaining = nextLv.min - value;
+            document.getElementById('gaugeProgressLabel').textContent = `Progreso a ${nextLv.name}`;
+            document.getElementById('gaugeProgressRemain').textContent = `Faltan ${remaining}`;
+            document.getElementById('gaugeProgressFill').style.width = Math.min(progress, 100) + '%';
+        } else {
+            document.getElementById('gaugeProgressLabel').textContent = 'Nivel máximo alcanzado';
+            document.getElementById('gaugeProgressRemain').textContent = '👑';
+            document.getElementById('gaugeProgressFill').style.width = '100%';
+        }
+
+        // Highlight active level in list
+        document.querySelectorAll('.level-item').forEach((el, i) => {
+            el.classList.toggle('active', levels[i] === lv);
+        });
+
+        drawGauge(value);
+    }
+
+    const slider = document.getElementById('gaugeSlider');
+    slider.addEventListener('input', () => updateUI(parseInt(slider.value)));
+
+    // Initial draw
+    updateUI(300);
+})();
+
+
 document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
         const target = document.querySelector(a.getAttribute('href'));
