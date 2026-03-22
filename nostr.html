@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#080E14">
+    <meta name="description" content="Descubre cómo funciona tu identidad soberana en LiberBit World. Guía sobre Nostr, claves criptográficas y relays descentralizados.">
+    <title>Tu Identidad Soberana — LiberBit World</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg:        #080E14;
+            --bg-card:   #0f1a22;
+            --gold:      #E5B95C;
+            --gold-dim:  #c9a050;
+            --gold-glow: rgba(229,185,92,0.12);
+            --teal:      #2C5F6F;
+            --teal-l:    #3a7585;
+            --teal-glow: rgba(44,95,111,0.25);
+            --ink:       #E8E6E3;
+            --ink-2:     #7f95a3;
+            --ink-3:     #3e5462;
+            --border:    rgba(44,95,111,0.35);
+            --border-l:  rgba(44,95,111,0.15);
+            --red-warn:  #ef4444;
+            --fs-display: 'Syne', sans-serif;
+            --fs-serif:   'Instrument Serif', serif;
+            --fs-mono:    'JetBrains Mono', monospace;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--fs-display);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Background */
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 20% 30%, var(--teal-glow) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 80% 75%, var(--gold-glow) 0%, transparent 50%);
+            opacity: 0.5;
+            animation: bgShift 20s ease-in-out infinite alternate;
+        }
+        @keyframes bgShift {
+            0% { opacity: 0.35; }
+            100% { opacity: 0.55; }
+        }
+
+        /* Back nav */
+        .back-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            background: rgba(8, 14, 20, 0.8);
+            backdrop-filter: blur(16px) saturate(160%);
+            border-bottom: 1px solid var(--border-l);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .back-link {
+            color: var(--ink-2);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: color 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-link:hover { color: var(--gold); }
+        .back-nav .nav-brand {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.3px;
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 6rem 1.5rem 5rem;
+        }
+
+        /* Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .page-header .tag {
+            display: inline-block;
+            font-family: var(--fs-mono);
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid rgba(229,185,92,0.35);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1.8rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.2s;
+        }
+        .page-header h1 {
+            font-family: var(--fs-display);
+            font-size: clamp(2rem, 5.5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 1.2rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.4s;
+        }
+        .page-header h1 em {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 400;
+            text-shadow: 0 0 60px rgba(229,185,92,0.3);
+            letter-spacing: -1px;
+        }
+        .page-header .subtitle {
+            font-size: 1.05rem;
+            color: var(--ink-2);
+            font-weight: 400;
+            max-width: 540px;
+            margin: 0 auto;
+            line-height: 1.75;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.6s;
+        }
+
+        /* Section cards */
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.2rem 2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+        .section-card:nth-child(1) { animation-delay: 0.7s; }
+        .section-card:nth-child(2) { animation-delay: 0.85s; }
+        .section-card:nth-child(3) { animation-delay: 1.0s; }
+        .section-card:nth-child(4) { animation-delay: 1.15s; }
+        .section-card:nth-child(5) { animation-delay: 1.3s; }
+
+        .section-card .icon-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.1rem;
+        }
+        .section-card .icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--teal), var(--teal-l));
+            box-shadow: 0 0 24px var(--teal-glow);
+        }
+        .section-card h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .section-card p {
+            color: var(--ink-2);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+        .section-card p + p {
+            margin-top: 0.75rem;
+        }
+        .section-card strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+        .section-card .hl-teal { color: var(--teal-l); }
+        .section-card .hl-gold { color: var(--gold); }
+
+        /* Key boxes */
+        .key-box {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0 0.5rem;
+        }
+        .key-item {
+            flex: 1;
+            padding: 1.1rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .key-item.public {
+            background: rgba(44, 95, 111, 0.12);
+            border-color: var(--teal);
+        }
+        .key-item.private {
+            background: rgba(239, 68, 68, 0.06);
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+        .key-label {
+            font-family: var(--fs-mono);
+            font-size: 0.65rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .key-item.public .key-label { color: var(--teal-l); }
+        .key-item.private .key-label { color: var(--red-warn); }
+        .key-code {
+            font-family: var(--fs-mono);
+            font-size: 0.8rem;
+            color: var(--ink-3);
+            word-break: break-all;
+        }
+        .key-desc {
+            font-size: 0.85rem;
+            color: var(--ink-2);
+            margin-top: 0.5rem;
+            line-height: 1.55;
+        }
+
+        /* Warning box */
+        .warning-box {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 1.1rem 1.3rem;
+            margin-top: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .warn-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .warning-box p {
+            color: #fca5a5 !important;
+            font-size: 0.9rem !important;
+            font-weight: 500 !important;
+        }
+
+        /* Comparison grid */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+        .compare-item {
+            padding: 1rem 1.1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .compare-item.old {
+            background: rgba(239, 68, 68, 0.04);
+            border-color: rgba(239, 68, 68, 0.12);
+        }
+        .compare-item.new {
+            background: rgba(44, 95, 111, 0.1);
+            border-color: var(--teal);
+        }
+        .compare-label {
+            font-family: var(--fs-mono);
+            font-size: 0.6rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .compare-item.old .compare-label { color: #f87171; }
+        .compare-item.new .compare-label { color: var(--teal-l); }
+        .compare-item p {
+            font-size: 0.85rem !important;
+            line-height: 1.55 !important;
+        }
+
+        /* Summary grid */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            padding: 0.9rem 1rem;
+            background: rgba(44, 95, 111, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+        .summary-item .check {
+            color: var(--gold);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .summary-item span {
+            font-size: 0.88rem;
+            color: var(--ink-2);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-l);
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 1.5s;
+        }
+        .page-footer .brand {
+            font-family: var(--fs-mono);
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--teal-l);
+        }
+        .page-footer .motto {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            color: var(--ink-2);
+            font-size: 1rem;
+            margin-top: 0.6rem;
+        }
+        .page-footer .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding: 0.7rem 1.8rem;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            color: var(--ink);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: var(--fs-display);
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+        .page-footer .btn-back:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(229,185,92,0.06);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .content { padding: 5rem 1rem 3rem; }
+            .section-card { padding: 1.5rem 1.2rem; }
+            .key-box { flex-direction: column; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .back-nav { padding: 0.8rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- Top bar -->
+<div class="back-nav">
+    <a href="/" class="back-link">← Volver</a>
+    <span class="nav-brand">LiberBit World</span>
+</div>
+
+<div class="content">
+
+    <header class="page-header">
+        <div class="tag">Guía para nuevos ciudadanos</div>
+        <h1>Tu <em>Identidad Soberana</em><br>en LiberBit World</h1>
+        <p class="subtitle">Todo lo que necesitas saber sobre cómo funciona tu identidad digital, tus claves y la red descentralizada que protege tu libertad.</p>
+    </header>
+
+    <div class="sections">
+
+        <!-- 1. Tu identidad -->
+        <div class="section-card">
+            <div class="icon-row">
+                <div class="icon-circle">🔑</div>
+                <h2>Tu identidad no es una cuenta</h2>
+            </div>
+            <p>Cuando te registras en LiberBit World, no estás creando una cuenta en el servidor de una empresa. Estás generando una <strong>identidad digital soberana</strong> que te pertenece solo a ti.</p>
+            <p>Se basa en una tecnología llamada <strong class="hl-teal">Nostr</strong>, un protocolo abierto y descentralizado. Funciona de forma muy sencilla: tú tienes dos claves, como una cerradura y su llave.</p>
+
+            <div class="key-box">
+                <div class="key-item public">
+                    <div class="key-label">Clave pública · npub</div>
+                    <div class="key-code">npub1a7x9...</div>
+                    <div class="key-desc">Tu dirección visible. Otros la ven como tu nombre de usuario. Puedes compartirla sin problema.</div>
+                </div>
+                <div class="key-item private">
+                    <div class="key-label">Clave privada · nsec</div>
+                    <div class="key-code">nsec1k3m2...</div>
+                    <div class="key-desc">Tu llave personal. Con ella firmas todo: publicar, votar, enviar mensajes.</div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <span class="warn-icon">⚠️</span>
+                <p><strong>Nunca compartas tu clave privada (nsec) con nadie.</strong> Quien la tenga puede actuar como si fuera tú. Guárdala en un lugar seguro, fuera de internet.</p>
+            </div>
+        </div>
+
+        <!-- 2. Por qué importa -->
+        <div class="section-card">
+            <div class="icon-row">
+                <div class="icon-circle">🛡️</div>
+                <h2>¿Por qué esto es importante?</h2>
+            </div>
+            <p>En las plataformas tradicionales — Facebook, X, Instagram — tu cuenta le pertenece a la empresa. Si deciden cerrártela, lo pierdes todo: tu identidad, tus contactos, tu historial.</p>
+            <p>En LiberBit World, <strong class="hl-gold">tu identidad es tuya</strong>. Nadie puede censurarte, bloquearte ni eliminarte, porque no dependes de ningún servidor central. Tú eres el dueño absoluto de tu presencia digital.</p>
+        </div>
+
+        <!-- 3. Relays -->
+        <div class="section-card">
+            <div class="icon-row">
+                <div class="icon-circle">📡</div>
+                <h2>¿Dónde se guarda tu información?</h2>
+            </div>
+            <p>Tus publicaciones, votos y mensajes se envían a unos servidores llamados <strong class="hl-teal">relays</strong>. Piensa en ellos como buzones de correo: tu mensaje se deposita ahí para que otros puedan recibirlo.</p>
+            <p>LiberBit World cuenta con <strong>relays privados propios</strong> que protegen la información interna de la comunidad — gobernanza, méritos, mensajes cifrados. Además, se conecta a relays públicos para que tu perfil sea visible en el ecosistema Nostr global.</p>
+            <p>Si un relay se cae, no pasa nada: tu identidad sigue siendo tuya y tus datos se replican automáticamente en los demás.</p>
+        </div>
+
+        <!-- 4. Comparación -->
+        <div class="section-card">
+            <div class="icon-row">
+                <div class="icon-circle">⚡</div>
+                <h2>Plataformas tradicionales vs. LiberBit</h2>
+            </div>
+            <div class="compare-grid">
+                <div class="compare-item old">
+                    <div class="compare-label">Centralizado</div>
+                    <p>La empresa es dueña de tu cuenta. Puede censurarte, borrarte o venderte.</p>
+                </div>
+                <div class="compare-item new">
+                    <div class="compare-label">LiberBit / Nostr</div>
+                    <p>Tú eres dueño de tu identidad. Nadie puede censurarte ni eliminarte.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Resumen -->
+        <div class="section-card">
+            <div class="icon-row">
+                <div class="icon-circle">✅</div>
+                <h2>En resumen</h2>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="check">◆</span>
+                    <span>Tu identidad te pertenece, no a LiberBit ni a nadie</span>
+                </div>
+                <div class="summary-item">
+                    <span class="check">◆</span>
+                    <span>Tu clave privada es sagrada: guárdala bien, no la compartas jamás</span>
+                </div>
+                <div class="summary-item">
+                    <span class="check">◆</span>
+                    <span>Tus datos no dependen de un único servidor</span>
+                </div>
+                <div class="summary-item">
+                    <span class="check">◆</span>
+                    <span>Nadie puede censurarte ni eliminarte</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="page-footer">
+        <div class="brand">LiberBit World</div>
+        <div class="motto">Soberanía digital real. Bienvenido.</div>
+        <a href="/" class="btn-back">← Volver a liberbitworld.com</a>
+    </footer>
+
+</div>
+
+</body>
+</html>
